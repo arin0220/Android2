@@ -25,17 +25,26 @@ class MainActivity : Activity() {
     // 버튼 클릭 이벤트 핸들러 메서드
     fun onButtonClick(view: View) {
         when (view.id) {
-            R.id.button -> {
+            R.id.shareButton -> {
                 // 버튼이 클릭되었을 때 EditText에서 값을 가져와서 문자열로 변환
                 val nameText = nameEditText.text.toString()
-                val titleText = menuEditText.text.toString()
+                val menuText = menuEditText.text.toString()
 
                 // 가져온 값들을 이용하여 Toast 메시지 표시
-                val message = "이름: $nameText, 메뉴: $titleText"
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                val message = "축하 받을 분의 성함 : $nameText \n 내용: $menuText"
+                //Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
+                // 공유 인텐트를 생성
+                val shareIntent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_TEXT, message) // 메시지 변수를 공유할 데이터로 사용
+                }
 
+                // 공유 인텐트를 시작
+                startActivity(Intent.createChooser(shareIntent, "텍스트 공유하기"))
             }
         }
     }
+
 }
